@@ -148,9 +148,32 @@ be covered a little, which should open up its variants (Brave, Epic, et al) for 
 
 ## Installation:
 
-This is how it's installed
+Assuming you have built all of the boxes, and configured/hardened them to your satisfaction, you will need to gather the following:
 
-more to come...
+* ProxyVM external IP address.   (If this is an internal, NAT/MASQ'ed machine, try: "curl -4 icanhazip.com")
+* Linode1 external IP address.
+* Linode2 external IP address.
+
+Caveat: 
+
+I have been admining *nix for 30 years.  I use root.  Sudo is useful for multi-user systems, and I get that.  I just do not use it on 
+my personal systems.  Thousands of command lines per day... 365 days a year... 5 characters saved for each command.  I am saving over 
+1.5 million characters typed, every year.  My keyboards last longer, meaning less e-waste in the dumps.  I am saving the planet, maaaaan.
+
+But, if you are into sudo for everything, just tack that onto the beginning of every command.  If that's your thing.   If that's how you roll.
+
+I never kink shame.
+
+### ProxyVM Installation/Configuration:
+
+1. Either SSH into your ProxyVM as root, like a real man, or use your beta sudo crutch.
+
+
+### Linode1 Installation/Configuration:
+
+
+### Linode2 Installation/Configuration:
+
 
 
 ## Best Practices:
