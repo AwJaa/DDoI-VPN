@@ -1,0 +1,33 @@
+############################################################
+# DDoI VPN iptables file - Linode2
+# - integrate this into your /etc/sysconfig/iptables
+# - issue: cat /etc/sysconfig/iptables | iptables-restore
+############################################################
+
+# Main filter table:
+*filter
+
+# Set default policies of ACCEPT for INPUT, FORWARD, and OUTPUT chains, reseting packet counters to 0's:
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Accept all RELATED and ESTABLISHED connections on INPUT chain:
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+# Accept all ICMP protocol on INPUT chain:
+-A INPUT -p icmp -j ACCEPT
+# Accept everything from the local loopback interface on INPUT chain:
+-A INPUT -i lo -j ACCEPT
+
+# Allow WireGuard VPN from ProxyVM:
+-A INPUT -i eth0 -s [PROXYVM_EXTERNAL_IP_ADDRESS]/32 -p udp --dport 12345 -j ACCEPT
+
+# Allow Squid proxy from proxy side of VPN:
+-A INPUT -i wgl2 -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
+
+# Reject everything else on the INPUT chain
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+# Reject everything else on the FORWARD chain
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+
+COMMIT

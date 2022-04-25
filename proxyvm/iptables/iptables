@@ -1,5 +1,5 @@
 ############################################################
-# DDoI VPN iptables file 
+# DDoI VPN iptables file - ProxyVM
 # - integrate this into your /etc/sysconfig/iptables
 # - issue: cat /etc/sysconfig/iptables | iptables-restore
 ############################################################
@@ -34,11 +34,11 @@
 
 -A FORWARD -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 -A FORWARD -p tcp -m state --state NEW -m tcp --dport 444 -j ACCEPT
--A FORWARD -p tcp -m state --state NEW -m tcp --dport 44443 -j ACCEPT
+-A FORWARD -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
 
 -A OUTPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 -A OUTPUT -p tcp -m state --state NEW -m tcp --dport 444 -j ACCEPT
--A INPUT -p tcp -m state --state NEW -m tcp --dport 44443 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
 
 
 # Reject everything else on the INPUT chain

@@ -66,7 +66,7 @@ We will refer to the following diagram for this explaination:
 
 DDoI VPN has 3 major hardware components, all of which are under your complete control at all times.  These are: the "Browsing Client", 
 the "ProxyVM", and the "Linodes".  The ProxyVM might be better named something else, like "VPNrouter", "ProxyForwarder", or 
-even just "Waypoint", but the name was chosen when the main purpose of the box was indeed to be purely a aimple proxy. 
+even just "Waypoint", but the name was chosen when the main purpose of the box was indeed to be purely a simple proxy. 
 
 The ProxyVM can be an internal machine.  All that is important is that it can reach the external Linode machines via UDP.  The 
 choices for interface names is arbitrary and were chosen only to make the most sense in this diagram.  The choices for ports 
@@ -126,7 +126,7 @@ The following things are required to precisely duplicate this design:
 
 * A Redhat/CentOS/Rocky Linux machine on the local network, with access to the outside.  I use Rocky Linux 8.5 for everything, and the ProxyVM
 is a virtual machine on my primary ESXi server.  A physical machine, docker container, or other virtualized solution should be fine.  
-The proceudre is tweaked for Rocky Linux, though.   <a href="https://rockylinux.org/download/">Rocky Linux</a> is 100% bug-for-bug compatible 
+The procedure is tweaked for Rocky Linux, though.   <a href="https://rockylinux.org/download/">Rocky Linux</a> is 100% bug-for-bug compatible 
 with RedHat Enterprise Linux, started by one of the originl CentOS founders.  It is what CentOS would have become had they not gone the way
 they did.
 * Two or more <a href="https://www.linode.com/">Linode</a> "nanodes" or better.  The cheapest 1GB Nanode with shared CPU is fine for this.  
