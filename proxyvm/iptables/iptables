@@ -1,0 +1,76 @@
+############################################################
+# DDoI VPN iptables file 
+# - integrate this into your /etc/sysconfig/iptables
+# - issue: cat /etc/sysconfig/iptables | iptables-restore
+############################################################
+
+# Main filter table:
+*filter
+
+# Set default policies of ACCEPT for INPUT, FORWARD, and OUTPUT chains, reseting packet counters to 0's:
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Accept all RELATED and ESTABLISHED connections on INPUT chain:
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+# Accept all ICMP protocol on INPUT chain:
+-A INPUT -p icmp -j ACCEPT
+# Accept everything from the local loopback interface on INPUT chain:
+-A INPUT -i lo -j ACCEPT
+
+# Accept everything from the eth0 interface on the INPUT chain:
+-A INPUT -i eth0 -j ACCEPT
+
+### WireGuard VPN:
+# Accept all inbound wgpa traffic on the INPUT chain (for Linode1):
+-A INPUT -i wgpa -j ACCEPT
+# Accept all outbound wgpa traffic on the OUTPUT chain (for Linode1):
+-A OUTPUT -o wgpa -j ACCEPT
+# Accept all inbound wgpb traffic on the INPUT chain (for Linode2):
+-A INPUT -i wgpb -j ACCEPT
+# Accept all outbound wgpb traffic on the OUTPUT chain (for Linode2):
+-A OUTPUT -o wgpb -j ACCEPT
+
+-A FORWARD -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+-A FORWARD -p tcp -m state --state NEW -m tcp --dport 444 -j ACCEPT
+-A FORWARD -p tcp -m state --state NEW -m tcp --dport 44443 -j ACCEPT
+
+-A OUTPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+-A OUTPUT -p tcp -m state --state NEW -m tcp --dport 444 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 44443 -j ACCEPT
+
+
+# Reject everything else on the INPUT chain
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+# Reject everything else on the FORWARD chain
+#-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+
+COMMIT
+
+
+# Network Address Translation table:
+*nat
+
+# Set default policies of ACCEPT for INPUT, OUTPUT, PREROUTING, and POSTROUTING chains, reseting packet counters to 0's:
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+
+# Before routing tables, change any packet that was destined to port 443 to wgl1:4443 
+# and jump to the Destination NAT table (for Linode1):
+-A PREROUTING -p tcp -m tcp --dport 443 -j DNAT --to-destination 10.100.100.1:4443
+# After routing tables, change any packet that was destined to wgl1:4443 to have a source
+# of wgpa and jump to the SNAT table (for Linode1):
+-A POSTROUTING -p tcp -d 10.100.100.1 --dport 4443 -j SNAT --to-source 10.100.100.10
+
+# Before routing tables, change any packet that was destined to port 443 to wgl2:4443 
+# and jump to the Destination NAT table (for Linode2):
+-A PREROUTING -p tcp -m tcp --dport 444 -j DNAT --to-destination 10.100.200.1:4443
+# After routing tables, change any packet that was destined to wgl2:4443 to have a source
+# of wgpb and jump to the SNAT table (for Linode2): 
+-A POSTROUTING -p tcp -d 10.100.200.1 --dport 4443 -j SNAT --to-source 10.100.200.10
+
+COMMIT
+

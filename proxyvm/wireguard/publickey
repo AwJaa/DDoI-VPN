@@ -1,0 +1,4 @@
+Run this to generate both keys:
+
+cd /etc/wireguard
+wg genkey | tee privatekey | wg pubkey > publickey
