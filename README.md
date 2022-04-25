@@ -46,6 +46,8 @@ Here are the main pros and cons of this solution over others:
 * No network configuration required on the "Browsing Client"
 * "Browsing Clients" can therefore be anything that has a web browser with proxy configuration capability (PC, Phone, Chromebook, tablet, etc.)
 * Multiple, segregated browser instances can be open at once, allowing you to check email on fake ID #7, while still being logged into Facebook on Fake ID #18.
+* No "kill-switch"ing.  The browser you open stays contained, and everything else runs business-as-usual.  Less likely to leak ID metadata 
+across each other.
 
 ### Cons:
 
@@ -107,7 +109,7 @@ Very simple.  Very fast.
 ### Other Points:
 
 There are many "best practices" to consider when setting this up for the first time, and we will cover many of them.  ALL web browsers, 
-no matter how "secure" they claim to be, are contantly vomiting metadata.  This needs to be controlled.  This design also introduces a possible
+no matter how "secure" they claim to be, are constantly vomiting metadata.  This needs to be controlled.  This design also introduces a possible
 pathway from the Internet and back through into your IDN.  This pathway must be tightly controlled.
 
 But, once everything is up and going, there is nothing left to do but add another browser or profile that uses the other ProxyVM port, 
@@ -125,8 +127,8 @@ on here, though, and replacements for any part of this will be left to the reade
 The following things are required to precisely duplicate this design:
 
 * A Redhat/CentOS/Rocky Linux machine on the local network, with access to the outside.  I use Rocky Linux 8.5 for everything, and the ProxyVM
-is a virtual machine on my primary ESXi server.  A physical machine, docker container, or other virtualized solution should be fine.  
-The procedure is tweaked for Rocky Linux, though.   <a href="https://rockylinux.org/download/">Rocky Linux</a> is 100% bug-for-bug compatible 
+is a virtual machine on my primary ESXi server.  A physical machine, docker container, or other virtualized solution should be fine.  The 
+procedure is tweaked for Rocky Linux, though.   <a href="https://rockylinux.org/download/">Rocky Linux</a> is 100% bug-for-bug compatible 
 with RedHat Enterprise Linux, started by one of the originl CentOS founders.  It is what CentOS would have become had they not gone the way
 they did.
 * Two or more <a href="https://www.linode.com/">Linode</a> "nanodes" or better.  The cheapest 1GB Nanode with shared CPU is fine for this.  
@@ -154,6 +156,18 @@ Assuming you have built all of the boxes, and configured/hardened them to your s
 * Linode1 external IP address.
 * Linode2 external IP address.
 
+All of the configuration files you should need are included in this repository, sorted into directories.  Most of them you can just copy
+into place and go.  The iptables files you will need to integrate into your existing iptables by hand, though.  To have them all at-hand, SSH 
+into each box and:
+
+```
+cd /usr/local/src/
+yum -y install git
+git clone https://github.com/AwJaa/DDoI-VPN
+cd DDoI-VPN/
+
+```
+
 Caveat: 
 
 I have been admining *nix for 30 years.  I use root.  Sudo is useful for multi-user systems, and I get that.  I just do not use it on 
@@ -167,9 +181,87 @@ I never kink shame.
 ### ProxyVM Installation/Configuration:
 
 1. Either SSH into your ProxyVM as root, like a real man, or use your beta sudo crutch.
+2. 
 
 
 ### Linode1 Installation/Configuration:
+
+1. SSH into your Linode1 box and, as root:
+
+```
+# NOTE: If you do not like the idea of copr, you can try another method from:
+# https://www.wireguard.com/install/
+
+######################
+### WireGuard:
+######################
+
+# Install WireGuard:
+yum config-manager --set-enabled powertools extras
+yum -y install epel-release
+yum -y copr enable jdoss/wireguard
+yum -y install wireguard-dkms wireguard-tools
+
+# Stage the DDoI VPN repository:
+cd /usr/local/src
+yum -y install git
+git clone https://github.com/AwJaa/DDoI-VPN
+
+# Generate this WireGuard key pair:
+cd /etc/wireguard
+wg genkey | tee privatekey | wg pubkey > publickey
+
+# Save this to use on ProxyVM:
+cat publickey
+# Save this to use on this Linode1:
+cat privatekey
+
+# I could give you tons of fancy-shmancy CLI wizardry to build the WireGuard config 
+# file, here, but just transfer the one from the repo and edit the following values:
+#   [LINODE1_EXTERNAL_IP_ADDRESS]
+#   [LINODE1_PRIVATE_KEY]
+#   [PROXYVM_PUBLIC_KEY]
+\cp /usr/local/src/DDoI-VPN/linode1/wireguard/wgl1.conf .
+chmod 600 *
+# use your favorite editor now
+
+# Start and enable the WireGuard service for this interface:
+systemctl start wg-quick@wgl1
+systemctl enable wg-quick@wgl1
+
+
+######################
+### Squid:
+######################
+
+# Install Squid:
+yum -y install squid
+
+# Same as before, just copy the repo file over and edit the following values:
+#   [LINODE1_EXTERNAL_IP_ADDRESS]
+#   [LINODE1_EXTERNAL_IP_ADDRESS]
+cd /etc/squid
+\cp /usr/local/src/DDoI-VPN/linode1/squid/squid.conf .
+chmod 640 squid.conf
+# use your favorite editor now
+
+# Start and enable the WireGuard service for this interface:
+systemctl start squid
+systemctl enable squid
+
+
+######################
+### iptables:
+######################
+
+# You now need to integrate the /usr/local/src/DDoI-VPN/linode1/iptables/iptables file into your
+# existing /etc/sysconfig/iptables file, using your favorite editor, changing the following values:
+#   [PROXYVM_EXTERNAL_IP_ADDRESS]
+
+# Enable these iptables changes in a persistant way:
+cat /etc/sysconfig/iptables | iptables-restore
+
+```
 
 
 ### Linode2 Installation/Configuration:
