@@ -39,7 +39,7 @@ as an all-linux solution, though it could easily be changed for other OSes.
 
 Here are the main pros and cons of this solution over others:
 
-&nbsp;&nbsp;### Pros:
+&nbsp;&nbsp;<H3>Pros:</H3>
 
 * No third-party VPN service to trust
 * No applications to install on the "Browsing Client"
