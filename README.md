@@ -224,7 +224,61 @@ wg genkey | tee privatekey | wg pubkey > publickey
 [Table of Contents](#table-of-contents)
 
 1. SSH into your ProxyVM box and, as root:
-2. 
+
+#### WireGuard:
+```shell
+
+######################
+### WireGuard:
+######################
+
+cd /etc/wireguard
+# Save this to use on Linode1 and Linode2:
+cat publickey
+# Save this to use on this ProxyVM:
+cat privatekey
+
+# I could give you tons of fancy-shmancy CLI wizardry to build the WireGuard config 
+# file, here, but just transfer the one from the repo and edit the following values:
+#   [PROXYVM_EXTERNAL_IP_ADDRESS]
+#   [PROXYVM_PRIVATE_KEY]
+#   [YOUR_INTERNAL_NAMESERVER_IF_ANY,]
+#   [LINODE1_PUBLIC_KEY]
+#   [LINODE1_EXTERNAL_IP_ADDRESS]
+\cp /usr/local/src/DDoI-VPN/proxyvm/wireguard/wgpa.conf .
+chmod 600 *
+# use your favorite editor now
+
+# I could give you tons of fancy-shmancy CLI wizardry to build the WireGuard config 
+# file, here, but just transfer the one from the repo and edit the following values:
+#   [PROXYVM_EXTERNAL_IP_ADDRESS]
+#   [PROXYVM_PRIVATE_KEY]
+#   [YOUR_INTERNAL_NAMESERVER_IF_ANY,]
+#   [LINODE2_PUBLIC_KEY]
+#   [LINODE2_EXTERNAL_IP_ADDRESS]
+\cp /usr/local/src/DDoI-VPN/proxyvm/wireguard/wgpb.conf .
+chmod 600 *
+# use your favorite editor now
+
+# Start and enable the WireGuard service for this interface:
+systemctl start wg-quick@wgpa
+systemctl enable wg-quick@wgpb
+
+```
+
+#### iptables:
+```shell
+######################
+### iptables:
+######################
+
+# You now need to integrate the /usr/local/src/DDoI-VPN/proxyvm/iptables/iptables file into your
+# existing /etc/sysconfig/iptables file, using your favorite editor:
+
+# Enable these iptables changes in a persistant way:
+cat /etc/sysconfig/iptables | iptables-restore
+
+```
 
 
 ### Linode1 Installation/Configuration:
