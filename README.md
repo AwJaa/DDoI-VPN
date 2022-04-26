@@ -160,7 +160,7 @@ All of the configuration files you should need are included in this repository, 
 into place and go.  The iptables files you will need to integrate into your existing iptables by hand, though.  To have them all at-hand, SSH 
 into each box and:
 
-```
+```console
 cd /usr/local/src/
 yum -y install git
 git clone https://github.com/AwJaa/DDoI-VPN
@@ -188,7 +188,7 @@ I never kink shame.
 
 1. SSH into your Linode1 box and, as root:
 
-```
+```console
 # NOTE: If you do not like the idea of copr, you can try another method from:
 # https://www.wireguard.com/install/
 
