@@ -7,44 +7,38 @@
 # Main filter table:
 *filter
 
-# Set default policies of ACCEPT for INPUT, FORWARD, and OUTPUT chains, reseting packet counters to 0's:
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
+# Set default policies of REJECT for INPUT, FORWARD, and OUTPUT chains, reseting packet counters to 0's:
+# NOTE: If you are trying to troubleshoot a problem by changing these default polices, know that the 
+#       protection is duplicated in a couple of places, below.
+:INPUT REJECT [0:0]
+:FORWARD REJECT [0:0]
+:OUTPUT REJECT [0:0]
 
-# Accept all RELATED and ESTABLISHED connections on INPUT chain:
+# Accept all RELATED and ESTABLISHED packets for connections on INPUT chain:
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 # Accept all ICMP protocol on INPUT chain:
 -A INPUT -p icmp -j ACCEPT
 # Accept everything from the local loopback interface on INPUT chain:
 -A INPUT -i lo -j ACCEPT
 
-# Accept everything from the eth0 interface on the INPUT chain:
--A INPUT -i eth0 -j ACCEPT
+# Use connection tracking for ESTABLISHED packets on the FORWARD chain:
+-A FORWARD -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 ### WireGuard VPN:
-# Accept all inbound wgpa traffic on the INPUT chain (for Linode1):
--A INPUT -i wgpa -j ACCEPT
-# Accept all outbound wgpa traffic on the OUTPUT chain (for Linode1):
--A OUTPUT -o wgpa -j ACCEPT
-# Accept all inbound wgpb traffic on the INPUT chain (for Linode2):
--A INPUT -i wgpb -j ACCEPT
-# Accept all outbound wgpb traffic on the OUTPUT chain (for Linode2):
--A OUTPUT -o wgpb -j ACCEPT
+# Reject all incoming NEW packets on wgpa (Linode1)
+-A INPUT -i wgpa -m state --state NEW -j REJECT
+# Reject all incoming NEW packets on wgpb (Linode2)
+-A INPUT -i wgpb -m state --state NEW -j REJECT
 
--A FORWARD -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
--A FORWARD -p tcp -m state --state NEW -m tcp --dport 444 -j ACCEPT
--A FORWARD -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
+# Accept all forwarding of NEW packets from eth0 (ProxyVM) to port 4443 on wgpa (Linode1)
+-A FORWARD -i eth0 -o wgpa -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
+# Accept all forwarding of NEW packets from eth0 (ProxyVM) to port 4443 on wgpb (Linode2)
+-A FORWARD -i eth0 -o wgpb -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
 
--A OUTPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
--A OUTPUT -p tcp -m state --state NEW -m tcp --dport 444 -j ACCEPT
--A INPUT -p tcp -m state --state NEW -m tcp --dport 4443 -j ACCEPT
-
-
-# Reject everything else on the INPUT chain
+# Reject everything else on the INPUT chain (in case default policies are changed, above)
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
-# Reject everything else on the FORWARD chain
-#-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+# Reject everything else on the FORWARD chain (in case default policies are changed, above)
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 
 COMMIT
 
@@ -52,11 +46,11 @@ COMMIT
 # Network Address Translation table:
 *nat
 
-# Set default policies of ACCEPT for INPUT, OUTPUT, PREROUTING, and POSTROUTING chains, reseting packet counters to 0's:
-:PREROUTING ACCEPT [0:0]
-:INPUT ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
+# Set default policies of REJECT for INPUT, OUTPUT, PREROUTING, and POSTROUTING chains, reseting packet counters to 0's:
+:PREROUTING REJECT [0:0]
+:INPUT REJECT [0:0]
+:OUTPUT REJECT [0:0]
+:POSTROUTING REJECT [0:0]
 
 # Before routing tables, change any packet that was destined to port 443 to wgl1:4443 
 # and jump to the Destination NAT table (for Linode1):
