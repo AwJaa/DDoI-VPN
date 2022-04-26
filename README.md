@@ -28,7 +28,51 @@ Everyone needs their alter-egos... <br>
 	* [Other Points](#other-points)
 * [Requirements](#requirements)
 * [Installation](#installation)
+	* [Common Tasks to All Systems](#common-tasks-to-all-systems)
+	* [ProxyVM Installation and Configuration](#proxyvm-installation-and-configuration)
+		* [WireGuard](#wireguard)
+		* [iptables](#iptables)
+	* [Linode1 Installation and Configuration](#linode1-installation-and-configuration)
+		* [WireGuard](#wireguard)
+		* [Squid](#squid)
+		* [iptables](#iptables)
+	* [Linode2 Installation and Configuration](#linode2-installation-and-configuration)
+		* [WireGuard](#wireguard)
+		* [Squid](#squid)
+		* [iptables](#iptables)
 * [Best Practices](#best-practices)
+	* [Browsers](#browsers)
+		* [Firefox and Variants](#firefox-and-variants)
+			* [Managing Profiles](#managing-profiles)
+				* [Creating New Profiles](#creating-new-profiles)
+				* [Forcing from Command Line](#forcing-from-command-line)
+				* [Using Themes to Discern](#using-themes-to-discern)
+				* [Bookmark All Common Sites](#bookmark-all-common-sites)
+			* [Managing Proxies](#managing-proxies)
+				* [Forced Through Command Line](#forced-through-command-line)
+				* [Proxy Switching Extensions](#proxy-switching-extensions)
+			* [Basic Hardening](#basic-hardening)
+		* [Chrome and Variants](#chrome-and-variants)
+			* [Managing Profiles](#managing-profiles)
+				* [Creating New Profiles](#creating-new-profiles)
+				* [Forcing from Command Line](#forcing-from-command-line)
+				* [Using Themes to Discern](#using-themes-to-discern)
+				* [Bookmark All Common Sites](#bookmark-all-common-sites)
+			* [Managing Proxies](#managing-proxies)
+				* [Forced Through Command Line](#forced-through-command-line)
+				* [Proxy Switching Extensions](#proxy-switching-extensions)
+			* [Basic Hardening](#basic-hardening)
+	* [Protecting Your Network](#protecting-your-network)
+		* [Hardening With iptables](#hardening-with-iptables)
+		* [Obscuring](#obscuring)
+		* [Logging and Alerting](#logging-and-alerting)
+	* [Fake Online Identities](#fake-online-identities)
+		* [Country of Origin vs Current Country](#country-of-origin-vs-current-country)
+			* [Make Sure the Browser is Not Ratting You Out](#make-sure-the-browser-is-not-ratting-you-out)
+			* [Language Habits](#language-habits)
+			* [Making Friends](#making-friends)
+		* [Sources of Selfies](#sources-of-selfies)
+
 
 
 ## Description:
@@ -281,7 +325,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 ```
 
 
-### Linode1 Installation/Configuration:
+### Linode1 Installation and Configuration:
 [Table of Contents](#table-of-contents)
 
 1. SSH into your Linode1 box and, as root:
@@ -353,7 +397,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 ```
 
 
-### Linode2 Installation/Configuration:
+### Linode2 Installation and Configuration:
 [Table of Contents](#table-of-contents)
 
 1. SSH into your Linode2 box and, as root:
@@ -431,7 +475,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 ### Browsers:
 [Table of Contents](#table-of-contents)
 
-#### Firefox (and Variants):
+#### Firefox and Variants:
 
 ##### Managing Profiles:
 
@@ -451,7 +495,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 ##### Basic Hardening:
 
-#### Chrome (and Variants):
+#### Chrome and Variants:
 
 ##### Managing Profiles:
 
@@ -483,7 +527,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 ### Fake Online Identities:
 [Table of Contents](#table-of-contents)
 
-#### Country of Origin vs. Current Country:
+#### Country of Origin vs Current Country:
 
 ##### Make Sure the Browser is Not Ratting You Out:
 
