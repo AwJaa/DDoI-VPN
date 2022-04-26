@@ -108,15 +108,16 @@ Very simple.  Very fast.
 
 ### Other Points:
 
-There are many "best practices" to consider when setting this up for the first time, and we will cover many of them.  ALL web browsers, 
-no matter how "secure" they claim to be, are constantly vomiting metadata.  This needs to be controlled.  This design also introduces a possible
-pathway from the Internet and back through into your IDN.  This pathway must be tightly controlled.
+There are many "best practices" to consider when doing this sort of thing, and we will cover some of them.  ALL web browsers, 
+no matter how "secure" they claim to be, are constantly vomiting metadata.  Youy will be able to witness much of it occur just by 
+watching the Squid proxy logs.  This needs to be controlled.  This design also introduces a possible pathway from the Internet 
+and back through into your IDN.  This pathway must be tightly controlled.
 
-But, once everything is up and going, there is nothing left to do but add another browser or profile that uses the other ProxyVM port, 
+But, once everything is up and going, there is nothing left but to add another browser or profile that uses the other ProxyVM port, 
 and you have a second fresh identity/footprint ready to be created.  A combination of browser brands, profiles, proxy switching 
 extensions, and private+public browsing will give one the ability to come up with multiple web identities, the number limited only to 
-your resources.  And, many of them can be up and worked at the same time!  Gone are the days of closing one browser down, making configuration
-changes, and bringing a new one up, just to switch over to another online presense.
+your resources.  And, many of them can be up and worked at the same time!  Gone will be the days of closing one browser down, 
+making configuration changes, making VPN location changes, and bringing a new one up, just to switch over to another online presense.
 
 
 ## Requirements:
@@ -178,25 +179,26 @@ But, if you are into sudo for everything, just tack that onto the beginning of e
 
 I never kink shame.
 
-### ProxyVM Installation/Configuration:
+### Common Tasks to All Systems:
 
-1. Either SSH into your ProxyVM as root, like a real man, or use your beta sudo crutch.
-2. 
-
-
-### Linode1 Installation/Configuration:
-
-1. SSH into your Linode1 box and, as root:
+1. Either SSH into each machine as root, like a real man, or use your beta sudo crutch.
+2. Perform the following:
 
 ```shell
-# NOTE: If you do not like the idea of copr, you can try another method from:
-# https://www.wireguard.com/install/
-
-######################
-### WireGuard:
-######################
+# Disable firewalld and install, start, and enable iptables:
+# NOTE: I disable IPv6 on my systems - you can perform the commented-out commands if you do not.
+yum -y install iptables-services
+systemctl stop firewalld
+systemctl start iptables
+# systemctl start ip6tables
+systemctl disable firewalld
+systemctl mask firewalld
+systemctl enable iptables
+#systemctl enable ip6tables
 
 # Install WireGuard:
+# NOTE: If you do not like the idea of copr, you can try another method from:
+# https://www.wireguard.com/install/
 yum config-manager --set-enabled powertools extras
 yum -y install epel-release
 yum -y copr enable jdoss/wireguard
@@ -211,6 +213,26 @@ git clone https://github.com/AwJaa/DDoI-VPN
 cd /etc/wireguard
 wg genkey | tee privatekey | wg pubkey > publickey
 
+```
+
+### ProxyVM Installation/Configuration:
+
+1. SSH into your ProxyVM box and, as root:
+2. 
+
+
+### Linode1 Installation/Configuration:
+
+1. SSH into your Linode1 box and, as root:
+
+#### WireGuard:
+```shell
+
+######################
+### WireGuard:
+######################
+
+cd /etc/wireguard
 # Save this to use on ProxyVM:
 cat publickey
 # Save this to use on this Linode1:
@@ -229,7 +251,10 @@ chmod 600 *
 systemctl start wg-quick@wgl1
 systemctl enable wg-quick@wgl1
 
+```
 
+#### Squid:
+```shell
 ######################
 ### Squid:
 ######################
@@ -249,7 +274,10 @@ chmod 640 squid.conf
 systemctl start squid
 systemctl enable squid
 
+```
 
+#### iptables:
+```shell
 ######################
 ### iptables:
 ######################
