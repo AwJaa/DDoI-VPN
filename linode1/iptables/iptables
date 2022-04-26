@@ -7,10 +7,12 @@
 # Main filter table:
 *filter
 
-# Set default policies of ACCEPT for INPUT, FORWARD, and OUTPUT chains, reseting packet counters to 0's:
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
+# Set default policies of REJECT for INPUT, FORWARD, and OUTPUT chains, reseting packet counters to 0's:
+# NOTE: If you are trying to troubleshoot a problem by changing these default polices, know that the
+#       protection is duplicated in a couple of places, below.
+:INPUT REJECT [0:0]
+:FORWARD REJECT [0:0]
+:OUTPUT REJECT [0:0]
 
 # Accept all RELATED and ESTABLISHED connections on INPUT chain:
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
