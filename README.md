@@ -39,7 +39,7 @@ as an all-linux solution, though it could easily be changed for other OSes.
 
 Here are the main pros and cons of this solution over others:
 
-### Pros:
+  ### Pros:
 
 * No third-party VPN service to trust
 * No applications to install on the "Browsing Client"
@@ -49,7 +49,7 @@ Here are the main pros and cons of this solution over others:
 * No "kill-switch"ing.  The browser you open stays contained, and everything else runs business-as-usual.  Less likely to leak ID metadata 
 across each other.
 
-### Cons:
+  ### Cons:
 
 * Not as cheap as third-party services.  You are going to pay $5/mo per region you desire.
 * Linode currently has limited regions.  This might be easily changed to work in AWS, however.
