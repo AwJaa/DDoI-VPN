@@ -32,6 +32,7 @@ Everyone needs their alter-egos... <br>
 
 
 ## Description:
+[Table of Contents](#table-of-contents)
 
 DDoI (pronounced, "duh doi") VPN is mostly intended to assist others in realizing their potential for taking 
 complete control over their fake online (web-based) identities.  This is documented and tested
@@ -57,6 +58,7 @@ across each other.
 
 
 ## Theory of Operation:
+[Table of Contents](#table-of-contents)
 
 We will refer to the following diagram for this explaination:
 
@@ -121,6 +123,7 @@ making configuration changes, making VPN location changes, and bringing a new on
 
 
 ## Requirements:
+[Table of Contents](#table-of-contents)
 
 The requirements for making this work are much fewer than making it work exactly like this example.  This example will be concentrated 
 on here, though, and replacements for any part of this will be left to the reader.
@@ -150,6 +153,7 @@ be covered a little, which should open up its variants (Brave, Epic, et al) for 
 
 
 ## Installation:
+[Table of Contents](#table-of-contents)
 
 Assuming you have built all of the boxes, and configured/hardened them to your satisfaction, you will need to gather the following:
 
@@ -180,6 +184,7 @@ But, if you are into sudo for everything, just tack that onto the beginning of e
 I never kink shame.
 
 ### Common Tasks to All Systems:
+[Table of Contents](#table-of-contents)
 
 1. Either SSH into each machine as root, like a real man, or use your beta sudo crutch.
 2. Perform the following:
@@ -216,12 +221,14 @@ wg genkey | tee privatekey | wg pubkey > publickey
 ```
 
 ### ProxyVM Installation/Configuration:
+[Table of Contents](#table-of-contents)
 
 1. SSH into your ProxyVM box and, as root:
 2. 
 
 
 ### Linode1 Installation/Configuration:
+[Table of Contents](#table-of-contents)
 
 1. SSH into your Linode1 box and, as root:
 
@@ -293,6 +300,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 
 ### Linode2 Installation/Configuration:
+[Table of Contents](#table-of-contents)
 
 1. SSH into your Linode2 box and, as root:
 
@@ -364,8 +372,10 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 
 ## Best Practices:
+[Table of Contents](#table-of-contents)
 
 ### Browsers:
+[Table of Contents](#table-of-contents)
 
 #### Firefox (and Variants):
 
@@ -408,6 +418,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 ##### Basic Hardening:
 
 ### Protecting Your Network:
+[Table of Contents](#table-of-contents)
 
 #### Hardening With iptables:
 
@@ -416,6 +427,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 #### Logging and Alerting:
 
 ### Fake Online Identities:
+[Table of Contents](#table-of-contents)
 
 #### Country of Origin vs. Current Country:
 
