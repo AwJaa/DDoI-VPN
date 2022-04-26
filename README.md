@@ -4,7 +4,7 @@
   <img src="images/ddoi_logo.png" alt="DDoI VPN Logo" width="75%" align="middle">
 </h1> 
 
-## Distributed Denial of ID VPN
+## Distributed Denial of Identity VPN
 
 **Current Version:** 1.0<br> 
 **Last Update:** 04/24/22<br> 
@@ -30,20 +30,20 @@ Everyone needs their alter-egos... <br>
 * [Installation](#installation)
 	* [Common Tasks to All Systems](#common-tasks-to-all-systems)
 	* [ProxyVM Installation and Configuration](#proxyvm-installation-and-configuration)
-		* [WireGuard](#wireguard)
-		* [iptables](#iptables)
+		* [WireGuard on ProxyVM](#wireguard-on-proxyvm)
+		* [iptables on ProxyVM](#iptables-on-proxyvm)
 	* [Linode1 Installation and Configuration](#linode1-installation-and-configuration)
-		* [WireGuard](#wireguard)
-		* [Squid](#squid)
-		* [iptables](#iptables)
+		* [WireGuard on Linode 1](#wireguard-on-linode1)
+		* [Squid on Linode1](#squid-on-linode1)
+		* [iptables on Linode1](#iptables-on-linode1)
 	* [Linode2 Installation and Configuration](#linode2-installation-and-configuration)
-		* [WireGuard](#wireguard)
-		* [Squid](#squid)
-		* [iptables](#iptables)
+		* [WireGuard on Linode2](#wireguard-on-linode2)
+		* [Squid on Linode2](#squid-on-linode2)
+		* [iptables on Linode 2](#iptables-on-linode2)
 * [Best Practices](#best-practices)
 	* [Browsers](#browsers)
 		* [Firefox and Variants](#firefox-and-variants)
-			* [Managing Profiles](#managing-profiles)
+			* [Managing Profiles in Firefox](#managing-profiles-in-firefox)
 				* [Creating New Profiles](#creating-new-profiles)
 				* [Forcing from Command Line](#forcing-from-command-line)
 				* [Using Themes to Discern](#using-themes-to-discern)
@@ -53,7 +53,7 @@ Everyone needs their alter-egos... <br>
 				* [Proxy Switching Extensions](#proxy-switching-extensions)
 			* [Basic Hardening](#basic-hardening)
 		* [Chrome and Variants](#chrome-and-variants)
-			* [Managing Profiles](#managing-profiles)
+			* [Managing Profiles in Chrome](#managing-profiles-in-chrome)
 				* [Creating New Profiles](#creating-new-profiles)
 				* [Forcing from Command Line](#forcing-from-command-line)
 				* [Using Themes to Discern](#using-themes-to-discern)
@@ -269,7 +269,7 @@ wg genkey | tee privatekey | wg pubkey > publickey
 
 1. SSH into your ProxyVM box and, as root:
 
-#### WireGuard:
+#### WireGuard on ProxyVM:
 ```shell
 
 ######################
@@ -310,7 +310,7 @@ systemctl enable wg-quick@wgpb
 
 ```
 
-#### iptables:
+#### iptables on ProxyVM:
 ```shell
 ######################
 ### iptables:
@@ -330,7 +330,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 1. SSH into your Linode1 box and, as root:
 
-#### WireGuard:
+#### WireGuard on Linode1:
 ```shell
 
 ######################
@@ -358,7 +358,7 @@ systemctl enable wg-quick@wgl1
 
 ```
 
-#### Squid:
+#### Squid on Linode1:
 ```shell
 ######################
 ### Squid:
@@ -381,7 +381,7 @@ systemctl enable squid
 
 ```
 
-#### iptables:
+#### iptables on Linode1:
 ```shell
 ######################
 ### iptables:
@@ -402,7 +402,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 1. SSH into your Linode2 box and, as root:
 
-#### WireGuard:
+#### WireGuard on Linode2:
 ```shell
 
 ######################
@@ -430,7 +430,7 @@ systemctl enable wg-quick@wgl2
 
 ```
 
-#### Squid:
+#### Squid on Linode2:
 ```shell
 ######################
 ### Squid:
@@ -453,7 +453,7 @@ systemctl enable squid
 
 ```
 
-#### iptables:
+#### iptables on Linode2:
 ```shell
 ######################
 ### iptables:
@@ -477,7 +477,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 #### Firefox and Variants:
 
-##### Managing Profiles:
+##### Managing Profiles in Firefox:
 
 ###### Creating New Profiles:
 
@@ -497,7 +497,7 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 #### Chrome and Variants:
 
-##### Managing Profiles:
+##### Managing Profiles in Chrome:
 
 ###### Creating New Profiles:
 
