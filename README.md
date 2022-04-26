@@ -39,7 +39,7 @@ as an all-linux solution, though it could easily be changed for other OSes.
 
 Here are the main pros and cons of this solution over others:
 
-&nbsp;&nbsp;*Pros:*
+### Pros:
 
 * No third-party VPN service to trust
 * No applications to install on the "Browsing Client"
@@ -49,7 +49,7 @@ Here are the main pros and cons of this solution over others:
 * No "kill-switch"ing.  The browser you open stays contained, and everything else runs business-as-usual.  Less likely to leak ID metadata 
 across each other.
 
-&nbsp;&nbsp;*Cons:*
+### Cons:
 
 * Not as cheap as third-party services.  You are going to pay $5/mo per region you desire.
 * Linode currently has limited regions.  This might be easily changed to work in AWS, however.
@@ -209,7 +209,7 @@ cd /usr/local/src
 yum -y install git
 git clone https://github.com/AwJaa/DDoI-VPN
 
-# Generate this WireGuard key pair:
+# Generate the WireGuard key pair for this system:
 cd /etc/wireguard
 wg genkey | tee privatekey | wg pubkey > publickey
 
@@ -294,11 +294,138 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 ### Linode2 Installation/Configuration:
 
+1. SSH into your Linode2 box and, as root:
+
+#### WireGuard:
+```shell
+
+######################
+### WireGuard:
+######################
+
+cd /etc/wireguard
+# Save this to use on ProxyVM:
+cat publickey
+# Save this to use on this Linode2:
+cat privatekey
+
+# I could give you tons of fancy-shmancy CLI wizardry to build the WireGuard config 
+# file, here, but just transfer the one from the repo and edit the following values:
+#   [LINODE2_EXTERNAL_IP_ADDRESS]
+#   [LINODE2_PRIVATE_KEY]
+#   [PROXYVM_PUBLIC_KEY]
+\cp /usr/local/src/DDoI-VPN/linode2/wireguard/wgl1.conf .
+chmod 600 *
+# use your favorite editor now
+
+# Start and enable the WireGuard service for this interface:
+systemctl start wg-quick@wgl2
+systemctl enable wg-quick@wgl2
+
+```
+
+#### Squid:
+```shell
+######################
+### Squid:
+######################
+
+# Install Squid:
+yum -y install squid
+
+# Same as before, just copy the repo file over and edit the following values:
+#   [LINODE2_EXTERNAL_IP_ADDRESS]
+#   [LINODE2_EXTERNAL_IP_ADDRESS]
+cd /etc/squid
+\cp /usr/local/src/DDoI-VPN/linode2/squid/squid.conf .
+chmod 640 squid.conf
+# use your favorite editor now
+
+# Start and enable the WireGuard service for this interface:
+systemctl start squid
+systemctl enable squid
+
+```
+
+#### iptables:
+```shell
+######################
+### iptables:
+######################
+
+# You now need to integrate the /usr/local/src/DDoI-VPN/linode2/iptables/iptables file into your
+# existing /etc/sysconfig/iptables file, using your favorite editor, changing the following values:
+#   [PROXYVM_EXTERNAL_IP_ADDRESS]
+
+# Enable these iptables changes in a persistant way:
+cat /etc/sysconfig/iptables | iptables-restore
+
+```
 
 
 ## Best Practices:
 
-List some best practices for a successful fake online presense, here.
+### Browsers:
+
+#### Firefox (and Variants):
+
+##### Managing Profiles:
+
+###### Creating New Profiles:
+
+###### Forcing from Command Line:
+
+###### Using Themes to Discern:
+
+###### Bookmark All Common Sites:
+
+##### Managing Proxies:
+
+###### Forced Through Command Line:
+
+###### Proxy Switching Extentions:
+
+##### Basic Hardening:
+
+#### Chrome (and Variants):
+
+##### Managing Profiles:
+
+###### Creating New Profiles:
+
+###### Forcing from Command Line:
+
+###### Using Themes to Discern:
+
+###### Bookmark All Common Sites:
+
+##### Managing Proxies:
+
+###### Forced Through Command Line:
+
+###### Proxy Switching Extentions:
+
+##### Basic Hardening:
+
+### Protecting Your Network:
+
+#### Hardening With iptables:
+
+#### Obscuring:
+
+#### Logging and Alerting:
+
+### Fake Online Identities:
+
+#### Country of Origin vs. Current Country:
+
+##### Make Sure the Browser is Not Ratting You Out:
+
+##### Language Habits:
+
+##### Making Friends:
+
+#### Sources of Selfies:
 
 more to come....
 
