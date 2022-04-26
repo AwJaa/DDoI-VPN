@@ -7,7 +7,7 @@
 ## Distributed Denial of Identity VPN
 
 **Current Version:** 1.0<br> 
-**Last Update:** 04/24/22<br> 
+**Last Update:** 04/26/22<br> 
 **Author:** awja<br> 
 **URL:** https://github.com/lleevveell66/DDoI-VPN<br> 
 
