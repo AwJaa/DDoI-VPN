@@ -467,6 +467,8 @@ cat /etc/sysconfig/iptables | iptables-restore
 ## Best Practices:
 [Table of Contents](#table-of-contents)
 
+This section is under long-term construction...
+
 ### Browsers:
 [Table of Contents](#table-of-contents)
 
@@ -476,7 +478,29 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 ###### Creating New Profiles:
 
+* Open Firefox
+* Browse to "about:profiles"
+* Click on [Create a New Profile] button
+* Click on [Next] button
+* Name the new profile however makes sense for you
+* Click on [Choose Folder] and make a new directory in there using the profile name, so it's easier for you to poke through later
+* Click on [Finish]
+
+You can now always go into the Profile Manager at "about:profiles" and "Launch profile in new browser" or use the method below to 
+force from the command line.
+
 ###### Forcing from Command Line:
+
+You will need to use the -P command line switch to immediately force loading a specific profile.  If you are in *nix, you can probably 
+figure it out.  The below is for Windows:
+
+* On your desktop, create a new folder.  I called mine "DDoI VPN Browsers".
+* Select the shortcut for Firefox (wherever) and copy it.
+* Open the new folder and right click/paste the short cut into here.
+* Right click on that new shortcut and select "Properties"
+* In the "Target" field, after the last double quote, add:  -P "Profile_Name"   Include quotes if there are spaces, and change Profile_Name 
+to the profile you've created in the previous section.
+* Click on the [Ok] button.
 
 ###### Using Themes to Discern:
 
@@ -488,7 +512,39 @@ cat /etc/sysconfig/iptables | iptables-restore
 
 ###### Proxy Switching Extentions:
 
+I recommend an extension called "FoxyProxy".  Very simple and easy.
+
 ##### Basic Hardening:
+
+(This section needs to cover all the normal point-n-click things done before the rest)
+
+The idea is to make Firefox stfu and stop leaking things.  If you are using a lot of crazy add-ons and extensions, you may wish to 
+rethink that, now, or at least comb throguh them and research what they are capable of leaking.
+
+The final steps require you to browse to "about:config" and admit to being a responsible adult.
+Then, search and change the following settings to the following values:
+
+```
+network.captive-portal-service.enabled  false
+network.connectivity-service.enabled  false
+app.normandy.enabled   false
+extensions.getAddons.cache.enabled   false
+messaging-system.rsexperimentloader.enabled  false
+app.normandy.optoutstudies.enabled  false
+browser.newtabpage.activity-stream.feeds.asrouterfeed false
+network.prefetch-next   false
+
+network.dns.disablePrefetch   true
+
+browser.startup.homepage_override.mstone    ignore
+
+browser.search.geoip.url   <set a blank string>
+browser.aboutHomeSnippets.updateUrl    <set a blank string>
+
+network.http.speculative-parallel-limit  0
+```
+
+You can read more details, <a href="https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_network-detection">here</a>.
 
 #### Chrome and Variants:
 
