@@ -1,6 +1,6 @@
 // DDoI VPN - Firefox user.js
 
-// Essential: 
+// Essential:
 user_pref("extensions.getAddons.cache.enabled", false);
 user_pref("browser.aboutHomeSnippets.updateUrl", "");
 user_pref("browser.newtabpage.activity-stream.feeds.asrouterfeed", false);

@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/github.css"> 
-
+ 
 <h1 align="center"> 
   <img src="images/ddoi_social.png" alt="DDoI VPN Logo" width="75%" align="middle">
 </h1> 
