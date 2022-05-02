@@ -570,6 +570,29 @@ network.http.speculative-parallel-limit  0
 
 You can read more details, <a href="https://support.mozilla.org/en-US/kb/how-stop-firefox-making-automatic-connections#w_network-detection">here</a>.
 
+NEW METHOD:
+
+A file called user.js has been provided in this repo.  You can read more about how these things work in the links in the references section, below.  
+But, basically, in the "%APPDATA%\Mozilla\PROFILE_NAME" folder, there will be a prefs.js file when you manually poke around in Firefox and change
+values.  This file is read upon loading the profile, and saved again upon closing that browser.  So, you must close the browser before saving it, if 
+you are editing in a text editor.  It is possible to make these changes permanent by putting them into a new file called user.js .  The user.js file 
+has the same structure as prefs.js, but will override any user changed to prefs.js .  There is also a way to make these changes machine-wide for all 
+profiles by using a mozilla.cfg file in the installation directory and pointing to it (see references).
+
+Simply copy the supplied user.js into your "%APPDATA%\Mozilla\PROFILE_NAME" folder for the PROFILE_NAME you've built, and your Firefox should no 
+longer be leaking much metadata everywhere.  Updating Firefox can add/remove these preferences and change them altogether.  So, be careful with allowing 
+Firefox to auto-update.   You will need to go through and make sure there is nothing new to worry about.  Firefox is *rife* with what they call 
+"studies", which are basically you volunteering to use your Firefox install on your machine to test their code.  Turn those ALL off, as you find them.
+
+Reference:
+* Profile Folders - http://kb.mozillazine.org/Profile_folder
+* prefs.js - http://kb.mozillazine.org/Prefs.js_file
+* user.js - http://kb.mozillazine.org/User.js_file
+* mozilla.cfg - http://kb.mozillazine.org/Locking_preferences
+
+Another suggestion is to go into settings and disable all the default search "engines" and go out and install the StartPage search extension.
+
+
 #### Chrome and Variants:
 
 ##### Managing Profiles in Chrome:
