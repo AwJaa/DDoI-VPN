@@ -319,6 +319,26 @@ systemctl enable wg-quick@wgpb
 # Enable these iptables changes in a persistant way:
 cat /etc/sysconfig/iptables | iptables-restore
 
+# You also need to enable packet forwarding in the kernel:
+cat<<'EOF'>>/etc/sysctl.conf
+
+## Turn on bbr ##
+net.core.default_qdisc = fq
+
+## Turn on basic protection/security ##
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.tcp_syncookies = 1
+
+## for IPv4 ##
+net.ipv4.ip_forward = 1
+## for IPv6 - uncomment the following line ##
+#net.ipv6.conf.all.forwarding = 1
+
+
+EOF
+
+
 ```
 
 
