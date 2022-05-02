@@ -338,6 +338,8 @@ net.ipv4.ip_forward = 1
 
 EOF
 
+# Make sysctl read new values from file (/etc/sysctl.conf
+sysctl -p
 
 ```
 
