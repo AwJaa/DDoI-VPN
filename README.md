@@ -572,7 +572,7 @@ You can read more details, <a href="https://support.mozilla.org/en-US/kb/how-sto
 
 NEW METHOD:
 
-A file called user.js has been provided in this repo.  You can read more about how these things work in the links in the references section, below.  
+A file called user.js has been provided in this repo.  You can read more about how these things work in the links in the references section, below. 
 But, basically, in the "%APPDATA%\Mozilla\PROFILE_NAME" folder, there will be a prefs.js file when you manually poke around in Firefox and change
 values.  This file is read upon loading the profile, and saved again upon closing that browser.  So, you must close the browser before saving it, if 
 you are editing in a text editor.  It is possible to make these changes permanent by putting them into a new file called user.js .  The user.js file 
