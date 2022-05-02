@@ -543,7 +543,7 @@ I recommend an extension called "FoxyProxy".  Very simple and easy.
 (This section needs to cover all the normal point-n-click things done before the rest)
 
 The idea is to make Firefox stfu and stop leaking things.  If you are using a lot of crazy add-ons and extensions, you may wish to 
-rethink that, now, or at least comb throguh them and research what they are capable of leaking.
+rethink that, now, or at least comb through them and research what they are capable of leaking.
 
 The final steps require you to browse to "about:config" and admit to being a responsible adult.
 Then, search and change the following settings to the following values:
@@ -576,7 +576,7 @@ A file called user.js has been provided in this repo.  You can read more about h
 But, basically, in the "%APPDATA%\Mozilla\PROFILE_NAME" folder, there will be a prefs.js file when you manually poke around in Firefox and change
 values.  This file is read upon loading the profile, and saved again upon closing that browser.  So, you must close the browser before saving it, if 
 you are editing in a text editor.  It is possible to make these changes permanent by putting them into a new file called user.js .  The user.js file 
-has the same structure as prefs.js, but will override any user changed to prefs.js .  There is also a way to make these changes machine-wide for all 
+has the same structure as prefs.js, but will override any user changes to prefs.js .  There is also a way to make these changes machine-wide for all 
 profiles by using a mozilla.cfg file in the installation directory and pointing to it (see references).
 
 Simply copy the supplied user.js into your "%APPDATA%\Mozilla\PROFILE_NAME" folder for the PROFILE_NAME you've built, and your Firefox should no 
