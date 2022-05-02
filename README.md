@@ -299,8 +299,10 @@ chmod 600 *
 chmod 600 *
 # use your favorite editor now
 
-# Start and enable the WireGuard service for this interface:
+# Start and enable the WireGuard service for these interfaces:
 systemctl start wg-quick@wgpa
+systemctl start wg-quick@wgpb
+systemctl enable wg-quick@wgp1
 systemctl enable wg-quick@wgpb
 
 ```
