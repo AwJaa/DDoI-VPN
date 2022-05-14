@@ -25,7 +25,7 @@
 // sale could become less accurate, therefore less valuable, thereby removing greed
 // from the scenario, essentially wiping them out.
 //
-// But, that is a long way off.
+// But, that is a long way off. 
 
 function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
