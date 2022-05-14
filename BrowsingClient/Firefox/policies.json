@@ -1,0 +1,236 @@
+{
+ "policies": {
+   "BlockAboutConfig": false,
+   "AppAutoUpdate": false,
+   "DisableFirefoxStudies": true,
+   "DisableFirefoxAccounts": true,
+   "DisablePocket": true,
+   "DisableTelemetry": true,
+   "DisplayBookmarksToolbar": true,
+   "NetworkPrediction": false,
+   "DisplayMenuBar": "always",
+   "PromptForDownloadLocation": true,
+   "OverrideFirstRunPage": "about:about",
+   "SearchSuggestEnabled": false,
+    "Homepage": {
+      "Locked": true,
+      "StartPage": "none"
+    },
+    "SearchEngines": {
+      "Add": [
+        {
+          "Name": "Startpage",
+          "URLTemplate": "https://www.startpage.com/do/dsearch?query={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://www.startpage.com/favicon.ico",
+          "Alias": "startpage",
+          "Description": "Startpage"
+        }
+      ],
+      "Remove": ["@amazon"],
+      "Remove": ["@bing"],
+      "Remove": ["@duckduckgo"],
+      "Remove": ["@ebay"],
+      "Remove": ["@wikipedia"]
+    },
+    "SearchEngines": {
+      "Default": "Startpage"
+    },
+
+    "Permissions": {
+      "Camera": {
+        "BlockNewRequests": true,
+        "Locked": false
+      },
+      "Microphone": {
+        "BlockNewRequests": true,
+        "Locked": false
+      },
+      "Location": {
+        "BlockNewRequests": true,
+        "Locked": false
+      },
+      "Notifications": {
+        "BlockNewRequests": true,
+        "Locked": false
+      },
+      "Autoplay": {
+        "BlockNewRequests": true,
+        "Locked": false
+      }
+    },
+    "PictureInPicture": {
+      "Enabled": false,
+      "Locked": false
+    },
+    "Preferences": {
+      "network.captive-portal-service.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "network.connectivity-service.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "app.normandy.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "extensions.getAddons.cache.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "messaging-system.rsexperimentloader.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "app.normandy.optoutstudies.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "browser.newtabpage.activity-stream.feeds.asrouterfeed": {
+        "Value": false,
+        "Status": "user"
+      },
+      "network.prefetch-nex": {
+        "Value": false,
+        "Status": "user"
+      },
+      "network.dns.disablePrefetch": {
+        "Value": true,
+        "Status": "user"
+      },
+      "browser.startup.homepage_override.mstone": {
+        "Value": "ignore",
+        "Status": "user"
+      },
+      "network.http.speculative-parallel-limit": {
+        "Value": 0,
+        "Status": "user"
+      },
+      "browser.search.geoip.url": {
+        "Value": " ",
+        "Status": "user"
+      },
+      },
+      "bdom.serviceWorkers.enabled": {
+        "Value": false,
+        "Status": "user"
+      },
+      "browser.aboutHomeSnippets.updateUrl": {
+        "Value": " ",
+        "Status": "user"
+      }
+    },
+    "Bookmarks": [
+      {
+        "Title": "About Places",
+        "URL": "about:about",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Preferences",
+        "URL": "about:preferences",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Config",
+        "URL": "about:config",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Policies",
+        "URL": "about:policies",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Profiles",
+        "URL": "about:profiles",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Profiler",
+        "URL": "about:profiling",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Service Workers",
+        "URL": "about:serviceworkers",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Logins",
+        "URL": "about:logins",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Protections",
+        "URL": "about:protections",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Networking",
+        "URL": "about:networking",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Performance",
+        "URL": "about:performance",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Processes",
+        "URL": "about:processes",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Memory",
+        "URL": "about:memory",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Cache",
+        "URL": "about:cache",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Crashes",
+        "URL": "about:crashes",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Troubleshooting",
+        "URL": "about:support",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Telemetry",
+        "URL": "about:telemetry",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      },
+      {
+        "Title": "Studies",
+        "URL": "about:studies",
+        "Placement": "toolbar",
+        "Folder": "Firefox"
+      }
+    ]
+ }
+}
