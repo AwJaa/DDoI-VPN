@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        SearchBot 1.2
+// @name        SearchBot 1.3
 // @namespace   Awww Jaaa Scripts
 // @match       https://www.google.com/search?q=testing
 // @grant       none
-// @version     1.2
+// @version     1.3
 // @author      awja
-// @description 5/10/2022, 10:38:02 AM
+// @description 5/17/2022, 10:38:02 AM
 // ==/UserScript==
 ////////////////////////////////////////////////////////////////////////////////////
 // This script is a total mess.  I know it.  I just need to move it around
@@ -31,11 +31,13 @@
 // It is required that you hit the Google search settings cog and change the 
 // "Results per page" to 100.
 
+// Browse here to begin:  https://www.google.com/search?q=testing
+
 // ES6 requried for: =>
 // ES8 required for: async
 /*jshint esversion: 8 */
 
-const myVersion='1.2';
+const myVersion='1.3';
 
 // Returns a random integer between min and max (inclusive)
 function randomIntFromInterval(min,max) {
@@ -48,33 +50,76 @@ function sleep(seconds) {
   return new Promise(resolve=>setTimeout(resolve,milliSeconds));
 }
 
-
 // Opens a pop-up window for logging
 async function openLogWindow() {
-    myLogWindow=window.open("","","width=500,height=500,left=10,top=10");
+  myLogWindow=window.open("","","width=800,height=600,left=10,top=10");
   
-/*
-  myLogWindow.document.body.style.backgroundColor='#DDBBBB';
-    let div = myLogWindow.document.createElement('div');
-    //let textNode = myLogWindow.document.createTextNode('SearchBot');
-    div.className="topBanner";
-    div.innerHTML='<h3><b>*** SearchBot '+myVersion+' by AwJa ***</b></h3>';
-    div.setAttribute('style',"background-color:black;color:yellow;border:1em solid black;border-radius:5%;width:100%;padding:1em;text-align:center");
-    myLogWindow.document.append(div);
-*/
-    return;
+  myLogWindow.document.body.style.backgroundColor='#99DD99';
+  var myDiv=myLogWindow.document.createElement('div');
+  myDiv.className="topBanner";
+  myDiv.innerHTML='<font size="4" style="font-family:verdana;"><b>*** SearchBot '+myVersion+' by AwJa ***</b></font>';
+  myDiv.setAttribute('style',"margin:0 auto;background-color:black;color:yellow;border:0.5em solid green;border-radius:5%;width:75%;padding:1em;text-align:center;align:center;");
+  myLogWindow.document.body.append(myDiv);
+
+  myLogBox=myLogWindow.document.createElement('textarea');
+  myLogBox.className="TextareaBox";
+  myLogBox.autofocus=true;
+  myLogBox.setAttribute("id","logBox");
+  myLogBox.setAttribute('style','width:95%;height:75%;border:0.25em solid white;background-color:black;color:green;align:center;display:block;margin-left: auto;margin-right: auto;');
+  myLogBox.onkeyup=function(evt) {
+    this.scrollTop=this.scrollHeight;
+  }
+  
+  myLabel=myLogWindow.document.createElement("label");
+  myLabel.setAttribute("for","logBox");
+  myLabel.innerHTML='Log:';
+  myLogWindow.document.body.appendChild(myLogBox);
+  
+  myLogBox.value+='\SearchBot Log:\n======================\n';
+  
+  var myButton=document.createElement("button");
+  myButton.className="StartStopButton";
+  myButton.innerHTML="Start";
+  myButton.type="button";
+  myButton.name="startStopButton";
+  myButton.setAttribute("id","buttonStartStop");
+//  myButton.setAttribute('style','width:90%;padding:6px;font-size:16px;background-color:#00BCBA;border-radius:4px;border: 2px solid yellow;transition-duration:0.4s;');
+  myButton.setAttribute('style','position:absolute;left:50%;transform: translateX(-50%);text-align:center;padding:12px;width:90%;font-size:36px;background-color:#00BCBA;border-radius:4px;border: 2px solid yellow;transition-duration:0.4s;');
+  myLogWindow.document.body.appendChild(myButton);
+
+  toggleStartStop=0;msgStartStop="stop";
+  
+  myButton.addEventListener("click", async function () {
+    if(toggleStartStop == 1) {
+      toggleStartStop=0; 
+      msgStartStop="stop"; 
+      myButton.innerHTML="Start";
+      await writeLogWindow('*** OK.  SearchBot will stop after this iteration. ***');
+    } else {
+        toggleStartStop=1; 
+        msgStartStop="start"; 
+        myButton.innerHTML="Stop";
+        await writeLogWindow('*** OK.  SearchBot will start. ***');
+     }
+//    alert('You have chosen to '+msgStartStop+' the script.');
+  });
+  
+//  debugger;
+  
+  return;
 }
 
 // Writes log message to the pop-up log window as well as console
 async function writeLogWindow(logMsg) {
-  myLogWindow.document.writeln(logMsg+'<br>');
+  myLogBox.value+=logMsg+'\n';
+  myLogBox.scrollTop=myLogBox.scrollHeight;
   console.log(logMsg);
+  
+  return;
 }
-
 
 // Returns a promise to resolve after a class selector has loaded (i.e., wait for this element of HTML)
 function waitForElm(selector) {
- // debugger;
   return new Promise(resolve=>{
     if (document.querySelector(selector)) {
       return resolve(document.querySelector(selector));
@@ -101,12 +146,16 @@ async function typeInto(el,data) {
   el.value+=data;
   el.dispatchEvent(e);
   await sleep(1);
+  
+  return;
 }
 
 // Opens a new tab for searching
 async function openNewSearchWindow() {
   let url='http://www.google.com/';
   mySearchWindow=await window.open(url,'theSearchWindow',"width=800,height=1200,left=1200,top=10");
+  
+  return;
 }
 
 // Returns search tab to main google search
@@ -114,90 +163,78 @@ async function refreshSearchWindow() {
   let url='http://www.google.com/';
   mySearchWindow.focus();
   mySearchWindow=await window.open(url,'theSearchWindow');
+  
+  return;
 }
 
 // Google search for passed terms
 async function searchGoogle(term1,term2,term3)
 {
- // debugger;
-  // query=term1+'+'+term2+'+'+term3;
-  
-//  await setTimeout(()=>{
- //   debugger;
   await sleep(3);
-    mySearchWindow.document.body.style.backgroundColor='#660000';
-    let div = mySearchWindow.document.createElement('div');
-    textNode = mySearchWindow.document.createTextNode('Test in Progress');
-    div.className = "alert";
-    div.innerHTML = "<h3><strong>***</strong> TEST IN PROGRESS <strong>***</strong></h3>";
-    div.setAttribute('style',"background-color:black;color:yellow;border:1em solid black;border-radius:5%;width:100%;padding:1em;text-align:center");
-    let googleLogo=mySearchWindow.document.querySelector("div.k1zIA.rSk4se");
-    googleLogo.parentNode.insertBefore(div,googleLogo);
-//    mySearchWindow.document.body.append(div);
-//  },3000);
+  mySearchWindow.document.body.style.backgroundColor='#660000';
+  let div = mySearchWindow.document.createElement('div');
+  textNode = mySearchWindow.document.createTextNode('Test in Progress');
+  div.className = "alert";
+  div.innerHTML = "<h3><strong>***</strong> TEST IN PROGRESS <strong>***</strong></h3>";
+  div.setAttribute('style',"background-color:black;color:yellow;border:1em solid black;border-radius:5%;width:100%;padding:1em;text-align:center");
+  let googleLogo=mySearchWindow.document.querySelector("div.k1zIA.rSk4se");
+  googleLogo.parentNode.insertBefore(div,googleLogo);
 
-  // Wait for the "Related searches" section at the bottom of the page
-  //var elm = await waitForElm('.q8U8x');
   var elm=await waitForElm('.YyVfkd');
-//  mySearchWindow.onload = async function() {
- //   debugger;
   await sleep(3);
- //   setTimeout(()=>{
- //     debugger;
-      mySearchWindow.focus();
-      
-      mySearchWindow.document.querySelector(".gLFyf").focus();
+  mySearchWindow.focus();
+  mySearchWindow.document.querySelector(".gLFyf").focus();
 
-      // Get element
-      var el=mySearchWindow.document.querySelector('input.gLFyf.gsfi');
+  // Get element
+  var el=mySearchWindow.document.querySelector('input.gLFyf.gsfi');
 
-      // Add an event listener for the 'input' event, to prove it's working
-      el.addEventListener('input', e => {
-        //  console.log(`${e.inputType}: ${e.data}`)
-        // writeLogWindow(`${e.inputType}: ${e.data}`);
-        sleep(1);
-      });
+  // Add an event listener for the 'input' event, to prove it's working
+  el.addEventListener('input', e => {
+    sleep(1);
+  });
 
-      queryTypedStr=term1+' '+term2+' '+term3+'\n';
-      writeLogWindow(' --- Typing '+queryTypedStr+' into the search input bar.');
-      mySearchWindow.document.querySelector('input.gLFyf.gsfi').click();
-      // Example "typeInto" usage: call for each letter in the string below
-      queryTypedStr.split('').forEach(async letter => {
-        typeInto(el, letter);
-        await sleep(2);
-      });
+  queryTypedStr=term1+' '+term2+' '+term3+'\n';
+  writeLogWindow(' --- Typing '+term1+' '+term2+' '+term3+' into the search input bar.');
+  mySearchWindow.document.querySelector('input.gLFyf.gsfi').click();
+ 
+  queryTypedStr.split('').forEach(async letter => {
+    typeInto(el, letter);
+    await sleep(2);
+  });
 
-      writeLogWindow(' --- Clicking on the Search button.');
-      mySearchWindow.document.querySelector('input.gNO89b').click();
-//    },3000);
-//  };
-  
-//  debugger;
+  writeLogWindow(' --- Clicking on the Search button.');
+  mySearchWindow.document.querySelector('input.gNO89b').click();
+
   mySearchWindow.document.body.style.backgroundColor='#662200';
   await writeLogWindow(' --- Attempting to click on a link');
   await sleep(3);
     
   // Wait for the "1" in the bottom "Google" pages section
   var elm2=await waitForElm('.YyVfkd');
-//  mySearchWindow.onload = async function() {
-//    setTimeout(()=>{
-      mySearchWindow.focus();
-      newLink = mySearchWindow.document.querySelector("div.NJo7tc.Z26q7c.jGGQ5e>div").getElementsByTagName('a')[0].href;
-      writeLogWindow(' --- [Search: '+queryTypedStr+'] Following this link with a mouse click:');
-      writeLogWindow(' ---- '+newLink);
-      mySearchWindow.document.querySelector("div.NJo7tc.Z26q7c.jGGQ5e>div").getElementsByTagName('a')[0].click();
-//    },3000);
-//  };
-    
-  await sleep(5);
-//  mySearchWindow.document.body.style.backgroundColor='#555555';
 
+  mySearchWindow.focus();
+  newLink = mySearchWindow.document.querySelector("div.NJo7tc.Z26q7c.jGGQ5e>div").getElementsByTagName('a')[0].href;
+  writeLogWindow(' --- [Search: '+term1+' '+term2+' '+term3+'] Following this link with a mouse click:');
+  writeLogWindow(' ----> '+newLink);
+  mySearchWindow.document.querySelector("div.NJo7tc.Z26q7c.jGGQ5e>div").getElementsByTagName('a')[0].click();
+
+  await sleep(5);
+  
+  return;
 }
 
 // Idles for 60 seconds
 async function stopIdle() {
   await writeLogWindow('SearchBot is idle.  Waiting 60 seconds...');
   await sleep(60);
+  
+  return;
+}
+
+async function waitForStart() {
+  await writeLogWindow('*** SearchBot STOPPED ***');
+  while(toggleStartStop == 0) { await sleep(1); }
+  await writeLogWindow('*** SearchBot STARTED ***');
   
   return;
 }
@@ -212,24 +249,89 @@ const searchTerms = [
   "plus size",
   "asian",
   "belt",
-  "scarf",
+  "scarf",     // 10
   "women",
   "girl",
   "shoes",
   "pretty",
   "pink",
   "flowers",
-  "floral"
+  "floral",
+  "love",
+  "heart",
+  "puppy",     // 20
+  "secret",
+  "queen",
+  "princess",
+  "temptation",
+  "forbidden",
+  "moon",
+  "stars",
+  "paradise",
+  "kiss",
+  "virgin",     // 30
+  "magic",
+  "enchanted",
+  "sale",
+  "demure",
+  "female",
+  "maiden",
+  "beauty",
+  "sensuous",
+  "frilly",
+  "empathy",     // 40
+  "sexy",
+  "chic",
+  "curvy",
+  "glamorous",
+  "motherly",
+  "pastel",
+  "hairstyle",
+  "value",
+  "gown",
+  "elegant",    // 50
+  "sassy",
+  "flirty",
+  "kitten",
+  "menstrual",
+  "playful",
+  "recipes",
+  "cooking",
+  "wine",
+  "coffee",
+  "music",      // 60
+  "romantic",
+  "crafts",
+  "bees",
+  "dessert",
+  "dream",
+  "drama",
+  "dance",
+  "scrapbook",
+  "seashell",
+  "ocean",      // 70
+  "wedding",
+  "tropical",
+  "honeymoon",
+  "rings",
+  "engagement",
+  "jewelry",
+  "necklace",
+  "pendant",
+  "bracelet",
+  "sparkly",    // 80
+  "diamonds"
 ];
 
 // Main loop
 async function main() {
-  //debugger;
-  const numIterations=2;
+  const numIterations=5;
   
   await openLogWindow();
   
-  await writeLogWindow('*******************************');
+  await waitForStart();
+  
+  await writeLogWindow('\n\n*******************************');
   await writeLogWindow('*** SearchBot v1.0 Started! ***');
   await writeLogWindow('*******************************');
   
@@ -237,34 +339,42 @@ async function main() {
   await writeLogWindow(' - New search window opened.');
   
   for(let i=0;i<numIterations;i++) {
-    await writeLogWindow(' - Iteration '+i+' of '+numIterations+' beginning.');
-    let randomInteger1=randomIntFromInterval(0,16);
-    let randomInteger2=randomIntFromInterval(0,16);
-    let randomInteger3=randomIntFromInterval(0,16);
+    if(toggleStartStop==1) {
+      var thisIteration=i+1;
+      await writeLogWindow(' - Iteration '+thisIteration+' of '+numIterations+' beginning.');
+      let randomInteger1=randomIntFromInterval(0,80);
+      let randomInteger2=randomIntFromInterval(0,80);
+      let randomInteger3=randomIntFromInterval(0,80);
 
-    let queryWord1=searchTerms[randomInteger1];
-    let queryWord2=searchTerms[randomInteger2];
-    let queryWord3=searchTerms[randomInteger3];
+      let queryWord1=searchTerms[randomInteger1];
+      let queryWord2=searchTerms[randomInteger2];
+      let queryWord3=searchTerms[randomInteger3];
 
-    await writeLogWindow(' -- Searching for: '+queryWord1+' '+queryWord2+' '+queryWord3);
-    await searchGoogle(queryWord1,queryWord2,queryWord3);
-    await writeLogWindow(' -- Search complete!');
+      await writeLogWindow(' -- Searching for: '+queryWord1+' '+queryWord2+' '+queryWord3);
+      await searchGoogle(queryWord1,queryWord2,queryWord3);
+      await writeLogWindow(' -- Search complete!');
 
-    await writeLogWindow(' - Iteration '+i+' of '+numIterations+' ended.');
+      let randomSeconds=randomIntFromInterval(3,15);
+      await writeLogWindow(' - Delaying a random '+randomSeconds+' seconds...');
+      await sleep(randomSeconds);
     
-    let randomSeconds=randomIntFromInterval(3,15);
-    await writeLogWindow(' - Delaying a random '+randomSeconds+' seconds...');
-    await sleep(randomSeconds);
-    
-    await writeLogWindow(' - Refreshing search window back to google main search.');
-    await refreshSearchWindow();
-    await sleep(randomSeconds);
+      await writeLogWindow(' - Refreshing search window back to google main search.');      
+      await refreshSearchWindow();
+      
+      let randomSeconds=randomIntFromInterval(3,15);
+      await writeLogWindow(' - Delaying a random '+randomSeconds+' seconds...');
+      await sleep(randomSeconds);
+      
+      await writeLogWindow(' - Iteration '+thisIteration+' of '+numIterations+' ended.');
+      await writeLogWindow('--------------------------------------------------------------');
+    } else { await waitForStart(); i--; }
   }
 
-//  await writeLogWindow(' - All iterations completed.  Going into idle loop.');
+  //  await writeLogWindow(' - All iterations completed.  Going into idle loop.');
+  //  while(1 == 1) { await stopIdle(); }
+
   await writeLogWindow(' - All iterations completed.  Done.');
   return;
-//  while(1 == 1) { await stopIdle(); }
 }
 
 // Begin
